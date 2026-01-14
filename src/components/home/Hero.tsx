@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight, ShieldCheck, Zap, Radio, Activity, Fingerprint } from "lucide-react";
+import { ChevronRight, ShieldCheck, Radio, Activity, Fingerprint } from "lucide-react";
 import { useRef } from "react";
 
 
@@ -34,10 +34,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-lg bg-brand-primary/5 border border-brand-primary/20 mb-8">
-              <Zap className="w-4 h-4 text-brand-primary animate-pulse" />
-              <span className="text-brand-primary text-[11px] font-black uppercase tracking-[0.2em]">Neural Defense v4.0 Active</span>
-            </div>
+            
 
             <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-[0.9]">
               Autonomous <span className="text-brand-primary">Defense.</span> <br />
@@ -117,37 +114,7 @@ export default function Hero() {
               />
             </div>
 
-            {/* Decorative Orbitals */}
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[5%] border border-dashed border-brand-primary/20 rounded-full"
-            />
-
-            {/* Status Indicators */}
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-6 -right-6 glass px-5 py-3 rounded-2xl border border-white/10 flex items-center space-x-3 shadow-2xl"
-            >
-              <Activity className="w-5 h-5 text-brand-primary" />
-              <div>
-                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Biometric Status</p>
-                <p className="text-white text-xs font-black tracking-tight">AUTHORIZED</p>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute -bottom-6 -left-6 glass px-5 py-3 rounded-2xl border border-white/10 flex items-center space-x-3 shadow-2xl"
-            >
-              <Radio className="w-5 h-5 text-brand-primary" />
-              <div>
-                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Protocol</p>
-                <p className="text-white text-xs font-black tracking-tight">ZERO TRUST v2</p>
-              </div>
-            </motion.div>
+            
           </motion.div>
         </div>
       </div>

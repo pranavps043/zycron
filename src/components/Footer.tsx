@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Shield, Mail, Phone, MapPin, Linkedin, Twitter, Github } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -7,11 +8,14 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <Shield className="w-8 h-8 text-brand-primary" />
-              <span className="text-xl font-bold tracking-tight text-white uppercase">
-                Zycron
-              </span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/bgless.png"
+                alt="Zycron Logo"
+                width={400}
+                height={120}
+                className="h-15 w-auto object-contain"
+              />
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed">
               Empowering enterprises with cutting-edge cybersecurity solutions. Protect your digital assets with Zycron&apos;s advanced security protocols and elite response teams.

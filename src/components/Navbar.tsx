@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Shield, Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -40,13 +41,16 @@ export default function Navbar() {
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] md:w-[70%] z-[100] glass border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl"
     >
-      <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div className="container mx-auto px-6 py-0 flex justify-between items-center h-24">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 z-[110]">
-          <Shield className="w-5 h-5 text-brand-primary" />
-          <span className="text-sm font-black tracking-[0.2em] text-white uppercase">
-            Zycron
-          </span>
+        <Link href="/" className="flex items-center z-[110] h-full">
+          <Image
+            src="/images/bgless.png"
+            alt="Zycron Logo"
+            width={330}
+            height={200}
+            className="h-full w-auto object-contain py-4"
+          />
         </Link>
 
         {/* Desktop Nav */}
