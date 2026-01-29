@@ -165,11 +165,11 @@ export default function ServicesPage() {
           title="Security Operations"
           subtitle="Enterprise-grade cyber defense through automated intelligence."
           showDecoration={false}
-          className="bg-black/20 backdrop-blur-md border-b border-white/5 pb-32"
+          className="relative pt-32 pb-24 bg-black/40 backdrop-blur-md border-b border-white/10"
         />
       </div>
 
-      <main ref={container} className="relative px-4 md:px-6 lg:px-8 pb-[10vh] z-10">
+      <main ref={container} className="relative px-4 md:px-6 lg:px-8 pb-[10vh] z-10 pt-20">
           {services.map((service, idx) => (
             <ServiceCard
               key={service.id}
@@ -183,16 +183,15 @@ export default function ServicesPage() {
         </main>
 
       {/* BACKGROUND */}
-      <div className="fixed inset-0 -z-10 pointer-events-none">
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <Image
-          src="/images/contact.jpg"
+          src="/images/serbg.jpg"
           alt="Services Background"
           fill
           priority
-          className="object-cover opacity-95 blur-sm"
+          className="object-cover opacity-100 blur-sm"
         />
-        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-black/20 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(0,0,0,0.15)_0%,_rgba(0,0,0,0.45)_100%)]" />
+        <div className="absolute inset-0 bg-black/40" />
       </div>
     </div>
   );
