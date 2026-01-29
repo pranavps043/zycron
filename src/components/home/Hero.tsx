@@ -1,17 +1,70 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronRight, ShieldCheck, Radio, Activity, Fingerprint } from "lucide-react";
-import { useRef } from "react";
+import { ShieldCheck } from "lucide-react";
 
+// Typewriter Effect Component
+const TypewriterText = () => {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
 
+  useEffect(() => {
+    const words = ["Response.", "Adaptation.", "Warfare.", "Evolution."];
+    const handleType = () => {
+      const fullWord = words[currentWordIndex];
+      
+      if (isDeleting) {
+        setCurrentText(fullWord.substring(0, currentText.length - 1));
+        setTypingSpeed(50); // Faster deletion
+      } else {
+        setCurrentText(fullWord.substring(0, currentText.length + 1));
+        setTypingSpeed(150); // Normal typing
+      }
+
+      if (!isDeleting && currentText === fullWord) {
+        setTimeout(() => setIsDeleting(true), 1500); // Pause at end of word
+      } else if (isDeleting && currentText === "") {
+        setIsDeleting(false);
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+      }
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentWordIndex, typingSpeed]); // Removed 'words' from dependency array to effectively fix the previous lint warning, as words is constant inside component scope but defined outside useEffect. Actually better to move words inside useEffect or keep it outside component. I will move it inside useEffect or leave it as constant outside component if possible, but simplest is to keep it inside component and ignore the warning or move it. I'll move it out of the component to be safe and cleaner.
+  
+  // Wait, if I move 'words' out of the component, I don't need it in deps. 
+  // Let's redefine it inside the component for now but I will remove it from the deps in the replacement content if I can, or actually just leave it as is.
+  // The lint error said: "The 'words' array makes the dependencies of useEffect Hook (at line 40) change on every render. Move it inside the useEffect callback."
+  // So I will move `words` inside `useEffect`.
+  
+  return (
+    <span className="text-gradient">
+      {currentText}
+      <span className="animate-blink ml-1">|</span>
+    </span>
+  );
+};
 
 export default function Hero() {
   const containerRef = useRef(null);
 
   return (
     <section ref={containerRef} className="relative min-h-[100dvh] w-full flex items-center bg-[#020202] py-20 pt-32 lg:py-0 lg:pt-20">
+      <style jsx global>{`
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        .animate-blink {
+          animation: blink 1s step-end infinite;
+        }
+      `}</style>
       
       {/* Background Ambience */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -21,7 +74,7 @@ export default function Hero() {
           style={{ backgroundImage: "url('/images/hero.jpg')" }}
         />
         <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.1)_0%,transparent_70%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(153,27,27,0.1)_0%,transparent_70%)]" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
       </div>
 
@@ -36,9 +89,9 @@ export default function Hero() {
           >
             
 
-            <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-[0.9]">
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-8 tracking-tighter leading-[0.9]">
               Autonomous <span className="text-brand-primary">Defense.</span> <br />
-              Intelligent <span className="text-gradient">Response.</span>
+              Intelligent <TypewriterText />
             </h1>
 
             <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl leading-relaxed font-medium">
@@ -46,15 +99,7 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6">
-              <Link
-                href="/contact-us"
-                className="group relative px-10 py-5 bg-white text-black font-black rounded-xl overflow-hidden transition-all hover:bg-brand-primary hover:text-white"
-              >
-                <div className="flex items-center justify-center space-x-3">
-                  <span>Deploy Neural Shield</span>
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+           
               
               <Link
                 href="/services"
@@ -88,16 +133,22 @@ export default function Hero() {
               {/* Background Glow */}
               <div className="absolute inset-0 bg-brand-primary/5 animate-pulse" />
               
-              {/* Fingerprint Icon */}
+              {/* Fingerprint Image */}
               <motion.div
                 animate={{ 
                   scale: [1, 1.05, 1],
-                  opacity: [0.3, 0.6, 0.3]
+                  opacity: [0.8, 1, 0.8] 
                 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-10"
+                className="relative z-10 w-48 h-48"
               >
-                <Fingerprint className="w-48 h-48 text-brand-primary/80 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
+                <Image
+                  src="/images/finger.png"
+                  alt="Fingerprint Scan"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 200px"
+                  className="object-contain drop-shadow-[0_0_15px_rgba(153,27,27,0.5)]"
+                />
               </motion.div>
 
               {/* Scanning Laser Beam */}
@@ -110,7 +161,7 @@ export default function Hero() {
                   repeat: Infinity, 
                   ease: "easeInOut" 
                 }}
-                className="absolute left-0 right-0 h-[2px] bg-brand-primary shadow-[0_0_15px_#ef4444,0_0_30px_#ef4444] z-20"
+                className="absolute left-0 right-0 h-[2px] bg-brand-primary shadow-[0_0_15px_#991b1b,0_0_30px_#991b1b] z-20"
               />
             </div>
 

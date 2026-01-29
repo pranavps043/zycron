@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-primary: #ef4444;
-  --color-brand-secondary: #991b1b;
-  --color-brand-accent: #f87171;
+  --color-brand-primary: #991b1b;
+  --color-brand-secondary: #7f1d1d;
+  --color-brand-accent: #b91c1c;
   --color-dark-bg: #050505;
   --color-dark-card: #111111;
 }
@@ -34,14 +34,18 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #ef4444, #991b1b);
+  background: linear-gradient(to right, #7f1d1d, #991b1b);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 @keyframes scan {
-  from { top: -100%; }
-  to { top: 100%; }
+  from {
+    top: -100%;
+  }
+  to {
+    top: 100%;
+  }
 }
 
 .animate-scan {
@@ -49,11 +53,23 @@ body {
 }
 
 @keyframes flicker {
-  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
     opacity: 0.99;
     filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.1));
   }
-  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
     opacity: 0.4;
     filter: none;
   }

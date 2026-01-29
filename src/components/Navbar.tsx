@@ -13,7 +13,7 @@ const navLinks = [
   { name: "Products", href: "/products" },
   { name: "About", href: "/about-us" },
   { name: "Careers", href: "/careers" },
-  { name: "Contact", href: "/contact-us" },
+  { name: "Blog", href: "/blog" },
 ];
 
 export default function Navbar() {
@@ -68,7 +68,7 @@ export default function Navbar() {
           ))}
           <Link
             href="/contact-us"
-            className="px-5 py-2 rounded-xl bg-brand-primary text-white text-[10px] font-black uppercase tracking-widest hover:bg-brand-secondary transition-all transform active:scale-95"
+            className="px-5 py-2 rounded-xl bg-red-800 text-white text-[10px] font-black uppercase tracking-widest hover:bg-brand-secondary transition-all transform active:scale-95"
           >
             Get Started
           </Link>

@@ -1,128 +1,141 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { Terminal, Shield, Network } from "lucide-react";
-import { useEffect, useState } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { useRef } from "react";
+import { ArrowRight, Shield, Rocket, Target } from "lucide-react";
 
-export default function AboutCTA() {
-  const [glitchText, setGlitchText] = useState("Industry Veterans");
-  const [bgData] = useState<string[]>(() => 
-    Array.from({ length: 48 }).map(() => 
-      Math.random() > 0.5 ? "0101101010" : "xAF78_RE_0"
-    )
-  );
-  const originalText = "Industry Veterans";
-  const chars = "!@#$%^&*()_+{}[]|;:,.<>?";
+interface WordProps {
+  children: string;
+  progress: MotionValue<number>;
+  range: number[];
+}
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      let result = "";
-      for (let i = 0; i < originalText.length; i++) {
-        if (Math.random() > 0.8) {
-          result += chars[Math.floor(Math.random() * chars.length)];
-        } else {
-          result += originalText[i];
-        }
-      }
-      setGlitchText(result);
-      setTimeout(() => setGlitchText(originalText), 150);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+const Word: React.FC<WordProps> = ({ children, progress, range }) => {
+  const opacity = useTransform(progress, range, [0, 1]);
 
   return (
-    <section className="py-24 relative overflow-hidden bg-dark-bg">
-      {/* Background Data Elements */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none font-mono text-[10px] grid grid-cols-12 gap-2 p-4 select-none">
-        {bgData.map((text, i) => (
-          <div key={i} className="overflow-hidden whitespace-nowrap">
-            {text}
-          </div>
-        ))}
+    <span className="relative mr-3 lg:mr-5 mb-2 h-fit">
+      <span className="absolute opacity-10 text-white select-none whitespace-nowrap">
+        {children}
+      </span>
+      <motion.span 
+        style={{ opacity }} 
+        className="text-white whitespace-nowrap"
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+};
+
+export interface MagicTextProps {
+  text: string;
+}
+
+const MagicText: React.FC<MagicTextProps> = ({ text }) => {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start 0.8", "start 0.2"],
+  });
+
+  const words = text.split(" ");
+
+  return (
+    <div ref={container} className="flex flex-wrap justify-center text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9]">
+      {words.map((word, i) => {
+        const start = i / words.length;
+        const end = start + 1 / words.length;
+        return (
+          <Word key={i} progress={scrollYProgress} range={[start, end]}>
+            {word}
+          </Word>
+        );
+      })}
+    </div>
+  );
+};
+
+export default function AboutCTA() {
+  const sectionRef = useRef(null);
+  
+  return (
+    <section ref={sectionRef} className="py-32 relative bg-black overflow-hidden flex flex-col items-center justify-center min-h-[80vh]">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(153,27,27,0.05)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
       </div>
 
-      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-         {/* Left Visual: Image with Cyber Frame */}
-         <motion.div 
-           initial={{ opacity: 0, x: -30 }}
-           whileInView={{ opacity: 1, x: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.8 }}
-           className="relative aspect-video rounded-3xl border border-white/5 overflow-hidden group"
-         >
-            <Image 
-              src="/images/abt.jpg" 
-              alt="Cyber Operations" 
-              fill 
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            {/* Dark Overlay with Tint */}
-            <div className="absolute inset-0 bg-brand-primary/10 mix-blend-overlay group-hover:bg-brand-primary/5 transition-colors" />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent" />
+      <div className="container mx-auto px-6 relative z-10 flex flex-col items-center">
+        {/* Top Header Label */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex items-center gap-3 mb-16"
+        >
+          <div className="h-[1px] w-12 bg-brand-primary" />
+          <span className="text-brand-primary font-mono text-xs tracking-[0.5em] uppercase font-bold">
+            The_Zycron_Ethos
+          </span>
+          <div className="h-[1px] w-12 bg-brand-primary" />
+        </motion.div>
 
-            {/* Cyber Frame Overlays */}
-            <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-brand-primary rounded-tl-sm shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-            <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-brand-primary rounded-tr-sm shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-            <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-brand-primary rounded-bl-sm shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-            <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-brand-primary rounded-br-sm shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
+        {/* Main Magic Text Section */}
+        <div className="max-w-6xl mx-auto mb-20">
+          <MagicText 
+            text="We build defense systems that think faster than the threats they neutralize. Elite intelligence merged with unshakeable integrity."
+          />
+        </div>
 
-            {/* Mock Log Overlay */}
-            <div className="absolute top-10 left-10 font-mono text-[9px] text-brand-primary/80 space-y-1 bg-dark-bg/40 p-2 backdrop-blur-sm rounded border border-white/5">
-              <div className="animate-pulse">_S_CORE_INIT: OK</div>
-              <div className="text-white/40">AUTH_SIG: 0x88.V2</div>
+        {/* Action Blocks */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl mb-20"
+        >
+          {[
+            { icon: Shield, label: "Hardened Core" },
+            { icon: Target, label: "Precision Intel" },
+            { icon: Rocket, label: "Rapid Response" }
+          ].map((item, i) => (
+            <div key={i} className="flex flex-col items-center p-6 border border-white/5 bg-white/[0.02] rounded-2xl group hover:border-brand-primary/30 transition-all">
+              <item.icon className="w-6 h-6 text-brand-primary/50 group-hover:text-brand-primary mb-4 transition-colors" />
+              <span className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em]">{item.label}</span>
             </div>
-         </motion.div>
+          ))}
+        </motion.div>
 
-         {/* Right Content */}
-         <motion.div
-           initial={{ opacity: 0, x: 30 }}
-           whileInView={{ opacity: 1, x: 0 }}
+        {/* Main CTA */}
+        <motion.div
+           initial={{ opacity: 0, scale: 0.9 }}
+           whileInView={{ opacity: 1, scale: 1 }}
            viewport={{ once: true }}
-           transition={{ duration: 0.8 }}
-           className="relative"
-         >
-           <div className="mb-4 flex items-center gap-3">
-             <div className="h-[1px] w-12 bg-brand-primary" />
-             <span className="text-brand-primary font-mono text-xs tracking-tighter uppercase font-bold">Protocol_Est.1994</span>
-           </div>
+           transition={{ delay: 0.8 }}
+        >
+          <Link href="/about-us" className="group relative inline-flex items-center gap-4 px-12 py-5 bg-brand-primary text-white font-black uppercase tracking-[0.3em] text-xs rounded-full overflow-hidden transition-all hover:pr-14 hover:shadow-[0_0_30px_rgba(153,27,27,0.4)]">
+            <span>Learn Our Story</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            
+            {/* Gloss shine effect */}
+            <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:left-full transition-all duration-1000 ease-in-out" />
+          </Link>
+        </motion.div>
+      </div>
 
-           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
-             Built by <br />
-             <span className="text-brand-primary font-mono inline-block">
-               {glitchText}
-             </span>
-           </h2>
-
-           <p className="text-slate-400 text-lg mb-8 leading-relaxed max-w-lg">
-             We understand that cybersecurity is more than just code—it&apos;s about <span className="text-white/80">Digital Integrity</span>. Our team brings decades of experience from defense, intelligence, and large-scale tech.
-           </p>
-
-           <div className="grid grid-cols-2 gap-6 mb-10">
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-primary/20 transition-all">
-                <Terminal className="w-5 h-5 text-brand-primary shrink-0" />
-                <div>
-                  <div className="text-white font-bold text-sm">Offensive Intel</div>
-                  <div className="text-slate-500 text-xs mt-1">Pentesting</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-primary/20 transition-all">
-                <Shield className="w-5 h-5 text-brand-primary shrink-0" />
-                <div>
-                  <div className="text-white font-bold text-sm">Active Defense</div>
-                  <div className="text-slate-500 text-xs mt-1">24/7 Monitoring</div>
-                </div>
-              </div>
-           </div>
-
-           <Link href="/about-us" className="inline-flex items-center px-10 py-4 bg-brand-primary/10 text-brand-primary font-bold rounded-lg border border-brand-primary/20 hover:bg-brand-primary/20 transition-all group overflow-hidden relative">
-             <span className="relative z-10 mr-3">LEARN_OUR_STORY</span>
-             <Network className="w-4 h-4 relative z-10 group-hover:rotate-45 transition-transform" />
-             <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:left-full transition-all duration-1000 ease-in-out" />
-           </Link>
-         </motion.div>
+       {/* Decorative Side Text */}
+       <div className="absolute left-10 top-1/2 -rotate-90 origin-left text-[10px] font-mono text-white/5 tracking-[2em] uppercase hidden xl:block pointer-events-none">
+        0xZY_SECURE_INIT_88
+      </div>
+      <div className="absolute right-10 top-1/2 rotate-90 origin-right text-[10px] font-mono text-white/5 tracking-[2em] uppercase hidden xl:block pointer-events-none">
+        ENCRYPTED_AUTH_STREAM
       </div>
     </section>
   );
 }
+

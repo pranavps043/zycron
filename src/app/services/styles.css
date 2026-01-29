@@ -1,0 +1,209 @@
+/* Service Cards Radio Button Styles */
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.choices {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.choices label {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.choices label:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.choices input[type="radio"]:checked + label {
+  background: var(--brand-primary, #3b82f6);
+  border-color: var(--brand-primary, #3b82f6);
+  color: white;
+}
+
+.bots {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  position: relative;
+  width: 320px;
+  min-height: 400px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  opacity: 0.3;
+  transform: scale(0.95);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gradient-from), var(--gradient-to));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show selected card */
+input[name="service"]:checked + .card {
+  opacity: 1;
+  transform: scale(1);
+}
+
+input[name="service"]:checked + .card::before {
+  opacity: 1;
+}
+
+/* Service content styling */
+.service-content {
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-header {
+  margin-bottom: 1.5rem;
+}
+
+.service-description {
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.service-footer {
+  margin-top: auto;
+}
+
+/* Tier selection labels */
+.labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.labels label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.labels label span {
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.labels input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.labels input[type="radio"]:checked + span {
+  background: var(--brand-primary, #3b82f6);
+  border-color: var(--brand-primary, #3b82f6);
+  box-shadow: 0 0 10px var(--brand-primary, #3b82f6);
+}
+
+.labels input[type="radio"]:checked ~ span {
+  color: white;
+}
+
+/* Tier selection effects */
+input[id$="-primary"]:checked ~ .service-content {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: -1rem;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+input[id$="-ultimate"]:checked ~ .service-content {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: -1rem;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+}
+
+/* Hide all radio inputs */
+input[type="radio"] {
+  display: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .choices {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .bots {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .header h3 {
+    font-size: 1.5rem;
+  }
+}

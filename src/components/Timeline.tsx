@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { Shield, Zap, Globe, Cpu } from "lucide-react";
+import { Shield, FileCheck, Rocket, Scale, Package } from "lucide-react";
 
 interface TimelineItemProps {
   year: string;
@@ -68,34 +68,34 @@ export default function Timeline() {
 
   const timelineData = [
     {
-      year: "2014",
-      title: "The Genesis",
-      description: "Two strangers with a shared passion for cybersecurity met at a cafe. A simple conversation sparked the vision for Zycron.",
-      icon: <Cpu className="w-5 h-5" />,
-    },
-    {
-      year: "2014 - 2018",
-      title: "Innovation Phase",
-      description: "Intense research and development. We built the core architecture of our proactive defense systems, focusing on unshakeable security.",
-      icon: <Zap className="w-5 h-5" />,
-    },
-    {
-      year: "2018",
-      title: "Dubai Hacks",
-      description: "Expanded our operations to Dubai, tackling complex regional security challenges and building a solid global reputation.",
+      year: "Phase 01",
+      title: "Foundation in Cybersecurity Principles",
+      description: "We began with a clear mission: to make cybersecurity practical, affordable, and effective for organizations of all sizes. From the start, our focus has been on real-world risks and measurable security outcomes.",
       icon: <Shield className="w-5 h-5" />,
     },
     {
-      year: "2020",
-      title: "Global Resilience",
-      description: "As the world moved remote, we scaled our infrastructure to protect distributed workforces across five continents.",
-      icon: <Globe className="w-5 h-5" />,
+      year: "Phase 02",
+      title: "Building Expertise & Standards Alignment",
+      description: "We strengthened our technical capabilities by aligning our practices with globally recognized standards such as ISO 27001, OWASP, and NIST, ensuring every service follows proven security frameworks and best practices.",
+      icon: <FileCheck className="w-5 h-5" />,
     },
     {
-      year: "2024",
-      title: "The Future of Defense",
-      description: "Integrating AI and neural-mesh security to predict threats before they manifest. We are faster than any virus.",
-      icon: <Shield className="w-5 h-5" />,
+      year: "Phase 03",
+      title: "Launch of Core Security Services",
+      description: "We introduced our core offerings, including Risk Assessments, Vulnerability Assessments, Penetration Testing, Web & API Security Testing, and OS/Server Hardening, helping organizations identify and reduce critical security gaps.",
+      icon: <Rocket className="w-5 h-5" />,
+    },
+    {
+      year: "Phase 04",
+      title: "Expansion into Governance & Compliance Support",
+      description: "To support long-term security maturity, we expanded into ISO 27001 documentation, compliance readiness checklists, security awareness training, and policy development, enabling organizations to meet regulatory and audit requirements.",
+      icon: <Scale className="w-5 h-5" />,
+    },
+    {
+      year: "Phase 05",
+      title: "Development of Security Products & Toolkits",
+      description: "We launched ready-to-use security audit packages, policy documentation kits, hardening checklists, employee training materials, and incident response toolkits to help clients sustain strong security practices internally.",
+      icon: <Package className="w-5 h-5" />,
     },
   ];
 
@@ -109,7 +109,7 @@ export default function Timeline() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight"
           >
-            A Decade of <span className="text-brand-primary">Dominance</span>
+            Our Journey in <span className="text-brand-primary">Cybersecurity</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -118,7 +118,7 @@ export default function Timeline() {
             transition={{ delay: 0.2 }}
             className="text-slate-500 mt-4 max-w-2xl mx-auto uppercase text-[10px] md:text-xs font-black tracking-widest"
           >
-            Chronological evolution of digital defense
+            Building a safer digital future, step by step
           </motion.p>
         </div>
 
