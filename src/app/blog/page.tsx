@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, ArrowRight, ShieldAlert, Terminal, Share2, Calendar, Clock, Eye, TrendingUp, Cpu, X, AlertTriangle, Lock, Database } from "lucide-react";
+import { User, ArrowRight, Terminal, Share2, Eye, X, AlertTriangle, Lock, Database } from "lucide-react";
 import Image from "next/image";
 import PageHeader from "@/components/PageHeader";
 
@@ -107,35 +107,49 @@ const BlogCard = ({ post, index, onClick }: { post: any; index: number; onClick:
 };
 
 // --- Featured Report Modal Component ---
-const FeaturedReportModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  if (!isOpen) return null;
+const FeaturedReportModal = ({ onClose }: { onClose: () => void }) => {
+  // Use effect for body scroll locking
+  React.useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/95 backdrop-blur-sm"
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/95 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      
+      {/* Modal Content */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8, rotateX: 15 }}
+        animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+        exit={{ opacity: 0, scale: 0.8, rotateX: 15 }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 15 }}
+        className="relative max-w-5xl w-full max-h-[90vh] overflow-hidden"
+        style={{ 
+          perspective: "1000px",
+          transformStyle: "preserve-3d"
+        }}
+      >
+        {/* Close Button - Moved to top level of content for better z-index control */}
+        <button
           onClick={onClose}
-        />
-        
-        {/* Modal Content */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotateX: 15 }}
-          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-          exit={{ opacity: 0, scale: 0.8, rotateX: 15 }}
-          transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 15 }}
-          className="relative max-w-5xl w-full max-h-[90vh] overflow-hidden"
-          style={{ 
-            perspective: "1000px",
-            transformStyle: "preserve-3d"
-          }}
+          className="absolute top-6 right-6 p-3 bg-black/50 border border-brand-primary/30 rounded-lg hover:bg-brand-primary/20 transition-all duration-300 hover:scale-110 z-50 touch-manipulation"
+          aria-label="Close modal"
         >
-          {/* Holographic Frame */}
-          <div className="relative bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0f0f0f] border-2 border-brand-primary/30 rounded-2xl shadow-2xl overflow-hidden">
+          <X size={24} className="text-brand-primary" />
+        </button>
+
+        {/* Holographic Frame */}
+        <div className="relative bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0f0f0f] border-2 border-brand-primary/30 rounded-2xl shadow-2xl overflow-hidden">
             {/* Animated Border */}
             <motion.div
               className="absolute inset-0 border-2 border-brand-primary/50 rounded-2xl pointer-events-none"
@@ -155,20 +169,14 @@ const FeaturedReportModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             />
             
             {/* Corner Decorations */}
-            <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-brand-primary/60" />
-            <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-brand-primary/60" />
-            <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-brand-primary/60" />
-            <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-brand-primary/60" />
+            <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-brand-primary/60 pointer-events-none" />
+            <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-brand-primary/60 pointer-events-none" />
+            <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-brand-primary/60 pointer-events-none" />
+            <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-brand-primary/60 pointer-events-none" />
 
             {/* Header */}
             <div className="relative p-8 border-b border-brand-primary/20">
-              {/* Close Button */}
-              <button
-                onClick={onClose}
-                className="absolute top-6 right-6 p-2 bg-black/50 border border-brand-primary/30 rounded-lg hover:bg-brand-primary/20 transition-all duration-300 hover:scale-110"
-              >
-                <X size={20} className="text-brand-primary" />
-              </button>
+              {/* Close Button removed from here */}
               
               {/* Alert Badge */}
               <motion.div
@@ -350,52 +358,59 @@ const FeaturedReportModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
   );
 };
 
 // --- Blog Modal Component ---
-const BlogModal = ({ post, isOpen, onClose }: { post: any; isOpen: boolean; onClose: () => void }) => {
-  if (!isOpen) return null;
+const BlogModal = ({ post, onClose }: { post: any; onClose: () => void }) => {
+  // Use effect for body scroll locking
+  React.useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/90 backdrop-blur-md"
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/90 backdrop-blur-md"
+        onClick={onClose}
+      />
+      
+      {/* Modal Content */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3 }}
+        className="relative max-w-4xl w-full max-h-[90vh] overflow-hidden bg-[#0a0a0a] border border-brand-primary/20 rounded-lg shadow-2xl"
+        style={{ zIndex: 10000 }}
+      >
+        {/* Close Button - Moved for better accessibility and hit area */}
+        <button
           onClick={onClose}
-        />
-        
-        {/* Modal Content */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3 }}
-          className="relative max-w-4xl w-full max-h-[90vh] overflow-hidden bg-[#0a0a0a] border border-brand-primary/20 rounded-lg shadow-2xl"
-          style={{ zIndex: 10000 }}
+          className="absolute top-4 right-4 p-3 bg-black/50 border border-white/10 rounded-lg hover:bg-brand-primary/20 transition-colors z-50 touch-manipulation"
+          aria-label="Close modal"
         >
-          {/* Modal Header */}
-          <div className="relative h-64 overflow-hidden">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
-            
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 p-2 bg-black/50 border border-white/10 rounded-lg hover:bg-brand-primary/20 transition-colors"
-            >
-              <X size={20} className="text-white" />
-            </button>
+          <X size={24} className="text-white" />
+        </button>
+
+        {/* Modal Header */}
+        <div className="relative h-64 overflow-hidden">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+          
+          {/* Close Button removed from here */}
             
             {/* Title Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -420,30 +435,7 @@ const BlogModal = ({ post, isOpen, onClose }: { post: any; isOpen: boolean; onCl
           
           {/* Modal Body */}
           <div className="p-8 overflow-y-auto max-h-[calc(90vh-16rem)] scrollbar-hide">
-            {/* Security Indicators */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="bg-black/50 border border-white/5 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Lock className="text-brand-primary" size={16} />
-                  <span className="text-xs font-mono text-neutral-400 uppercase">Security Level</span>
-                </div>
-                <div className="text-lg font-bold text-brand-primary font-mono">{post.severity}</div>
-              </div>
-              <div className="bg-black/50 border border-white/5 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Database className="text-brand-primary" size={16} />
-                  <span className="text-xs font-mono text-neutral-400 uppercase">Data Class</span>
-                </div>
-                <div className="text-lg font-bold text-brand-primary font-mono">CLASSIFIED</div>
-              </div>
-              <div className="bg-black/50 border border-white/5 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Eye className="text-brand-primary" size={16} />
-                  <span className="text-xs font-mono text-neutral-400 uppercase">Access</span>
-                </div>
-                <div className="text-lg font-bold text-brand-primary font-mono">LEVEL 5</div>
-              </div>
-            </div>
+         
             
             {/* Content */}
             <div className="prose prose-invert max-w-none">
@@ -508,7 +500,6 @@ const BlogModal = ({ post, isOpen, onClose }: { post: any; isOpen: boolean; onCl
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
   );
 };
 
@@ -1186,27 +1177,19 @@ export default function ImmersiveBlog() {
   const openModal = (post: any) => {
     setSelectedPost(post);
     setIsModalOpen(true);
-    // Prevent body scroll when modal opens
-    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedPost(null);
-    // Restore body scroll when modal closes
-    document.body.style.overflow = 'unset';
   };
 
   const openFeaturedModal = () => {
     setIsFeaturedModalOpen(true);
-    // Prevent body scroll when modal opens
-    document.body.style.overflow = 'hidden';
   };
 
   const closeFeaturedModal = () => {
     setIsFeaturedModalOpen(false);
-    // Restore body scroll when modal closes
-    document.body.style.overflow = 'unset';
   };
 
   // Cleanup on unmount
@@ -1337,19 +1320,23 @@ export default function ImmersiveBlog() {
       </div>
 
       {/* Modal - Outside main container */}
-      {selectedPost && (
-        <BlogModal 
-          post={selectedPost} 
-          isOpen={isModalOpen} 
-          onClose={closeModal} 
-        />
-      )}
+      <AnimatePresence>
+        {isModalOpen && selectedPost && (
+          <BlogModal 
+            post={selectedPost} 
+            onClose={closeModal} 
+          />
+        )}
+      </AnimatePresence>
       
       {/* Featured Report Modal */}
-      <FeaturedReportModal 
-        isOpen={isFeaturedModalOpen} 
-        onClose={closeFeaturedModal} 
-      />
+      <AnimatePresence>
+        {isFeaturedModalOpen && (
+          <FeaturedReportModal 
+            onClose={closeFeaturedModal} 
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
