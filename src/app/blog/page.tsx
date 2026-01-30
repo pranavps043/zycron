@@ -1259,7 +1259,6 @@ export default function ImmersiveBlog() {
                  <h2 className="text-2xl font-mono font-bold uppercase tracking-widest flex items-center gap-4">
                   <Terminal className="text-brand-primary" /> Latest_Log_Files
                  </h2>
-                 <span className="text-neutral-600 font-mono text-xs">Total: {blogPosts.length} Entries</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
