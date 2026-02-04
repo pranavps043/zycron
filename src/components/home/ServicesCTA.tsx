@@ -17,11 +17,11 @@ export default function ServicesCTA() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight uppercase italic">
+          <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
             Core Security <br />
             <span className="text-brand-primary">Testing & Operations</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto font-medium">
+          <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
             Professional cybersecurity solutions designed to identify, defend, and govern your digital infrastructure.
           </p>
         </motion.div>
@@ -112,9 +112,9 @@ export default function ServicesCTA() {
                     <div key={i} className="bg-black/60 p-3 rounded-lg border border-white/5 flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <Activity className="w-4 h-4 text-slate-600" />
-                        <span className="text-[10px] font-mono text-slate-400">{stat.label}</span>
+                        <span className="text-[10px] text-slate-400">{stat.label}</span>
                       </div>
-                      <span className={`text-[9px] font-black font-mono ${stat.color}`}>{stat.status}</span>
+                      <span className={`text-[9px] font-black ${stat.color}`}>{stat.status}</span>
                     </div>
                   ))}
                   <div className="flex gap-1 h-8 items-end px-2">
@@ -169,7 +169,7 @@ export default function ServicesCTA() {
                   </div>
                   <div>
                     <div className="text-white font-bold text-xs">ISO 27001 Readiness</div>
-                    <div className="text-[10px] text-brand-primary font-mono tracking-widest">VERIFIED</div>
+                    <div className="text-[10px] text-brand-primary tracking-widest">VERIFIED</div>
                   </div>
                 </div>
                 <div className="space-y-3">

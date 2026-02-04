@@ -7,6 +7,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Briefcase, MapPin, Clock, ArrowRight, ShieldCheck, Terminal, X, Loader2, Upload, Cpu } from "lucide-react";
 import Image from "next/image";
 import emailjs from '@emailjs/browser';
+import Link from 'next/link';
 
 // --- PERFECT CONTENT JOB LISTINGS ---
 const jobs = [
@@ -287,11 +288,12 @@ export default function CareersPage() {
           <p className="text-white/90 mb-12 max-w-xl mx-auto text-lg font-mono tracking-tight">
             [Signal Not Found] - Send an unsolicited transmission if your specialty isn&apos;t listed.
           </p>
-          <button
-            className="px-12 py-5 bg-black text-white border border-white/20 font-black rounded-2xl hover:bg-white hover:text-brand-primary transition-all uppercase tracking-widest text-lg shadow-2xl"
+          <Link
+            href="/contact-us"
+            className="px-12 py-5 bg-black text-white border border-white/20 font-black rounded-2xl hover:bg-white hover:text-brand-primary transition-all uppercase tracking-widest text-lg shadow-2xl inline-block"
           >
             Submit Open Transmission
-          </button>
+          </Link>
         </div>
       </motion.section>
       
